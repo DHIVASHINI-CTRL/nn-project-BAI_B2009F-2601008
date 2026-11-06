@@ -1,0 +1,21 @@
+# Dockerfile.test  -  TESTING container (smaller: inference only)
+# Contains only what is needed to load the saved model and evaluate it:
+# no training script, no data preparation, no seaborn.
+ARG PYTHON_VERSION=3.12
+FROM python:${PYTHON_VERSION}-slim
+
+ARG TORCH_VERSION
+ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
+
+WORKDIR /app
+
+RUN pip install --no-cache-dir torch==${TORCH_VERSION} --index-url https://download.pytorch.org/whl/cpu
+
+COPY requirements-test.txt .
+RUN pip install --no-cache-dir -r requirements-test.txt
+
+# only the files needed for inference
+COPY src/model.py src/test.py src/predict.py ./src/
+
+# data/ (CSV + recording_split.json) and models/ are mounted at run time
+CMD ["python", "src/test.py"]

@@ -1,0 +1,5 @@
+Exp,Name,What changed,Epochs,LR,Batch,Params,Best epoch (val F1),Val loss (final),Val acc (best epoch),Val macro F1 (best),Train-val acc gap (final)
+0,Baseline,-,60,0.001,64,3882,6,0.8688,0.9117,0.7619,0.1515
+1,Wider layers,"hidden 64,32 -> 128,64",60,0.001,64,11850,3,0.924,0.9007,0.7949,0.1595
+2,Dropout 0.3,dropout 0 -> 0.3,60,0.001,64,3882,9,0.649,0.9228,0.7997,0.1295
+3,SGD optimiser,Adam lr 0.001 -> SGD lr 0.01,60,0.01,64,3882,60,0.4502,0.8867,0.7215,0.0866

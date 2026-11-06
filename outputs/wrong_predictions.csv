@@ -1,0 +1,6 @@
+RecordID,True species,Predicted,Confidence,Prob. of true species,Top-2
+27,HylaMinuta,AdenomeraHylaedactylus,1.0,0.0,"AdenomeraHylaedactylus, HylaMinuta"
+46,LeptodactylusFuscus,HypsiboasCordobae,1.0,0.0,"HypsiboasCordobae, OsteocephalusOophagus"
+2,AdenomeraAndre,HypsiboasCordobae,1.0,0.0,"HypsiboasCordobae, OsteocephalusOophagus"
+40,HypsiboasCordobae,HylaMinuta,0.987,0.0,"HylaMinuta, AdenomeraHylaedactylus"
+60,ScinaxRuber,HylaMinuta,0.951,0.006,"HylaMinuta, Ameeregatrivittata"

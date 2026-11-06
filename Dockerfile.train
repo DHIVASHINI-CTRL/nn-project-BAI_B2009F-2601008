@@ -1,0 +1,24 @@
+# Dockerfile.train  -  TRAINING container
+# Runs prepare_data.py then train.py. Data, models and outputs are mounted as
+# volumes (they are NOT copied into the image).
+#
+# Set PYTHON_VERSION to the Python you used locally (python --version) and
+# TORCH_VERSION to your local torch version (pip show torch).
+ARG PYTHON_VERSION=3.12
+FROM python:${PYTHON_VERSION}-slim
+
+ARG TORCH_VERSION
+ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
+
+WORKDIR /app
+
+# CPU-only PyTorch (much smaller than the default CUDA build)
+RUN pip install --no-cache-dir torch==${TORCH_VERSION} --index-url https://download.pytorch.org/whl/cpu
+
+COPY requirements-train.txt .
+RUN pip install --no-cache-dir -r requirements-train.txt
+
+COPY src/ ./src/
+
+# data/, models/ and outputs/ are mounted at run time
+CMD ["sh", "-c", "python src/prepare_data.py && python src/train.py"]

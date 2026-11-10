@@ -1,7 +1,6 @@
 # Frog Species Classification from Acoustic Call Features Using a Custom Multilayer Perceptron
 
 BAI13143 Neural Network Basics - Individual Project
-
 Name: Dhivashini | Student ID: BAI_B2009F-2601008
 
 A neural network that identifies the species of a frog from 22 acoustic features (MFCCs) of its call.
@@ -58,8 +57,8 @@ The final model is the Exp 2 (dropout 0.3) checkpoint at epoch 9, chosen by vali
 ## 4. Run with Docker (recommended)
 
 Requirements: Docker Desktop. Commands are for Windows PowerShell, run from the project folder.
-Use your own Python version (`python --version`) and torch version (`pip show torch`) as build arguments;
-the project was built with Python 3.12 and torch 2.9.0 (CPU).
+The containers use Python 3.12 and torch 2.9.0 (CPU), set with the build arguments below. On my laptop I trained with
+Python 3.14.6 and torch 2.14.0 and got the same best epochs and validation scores.
 
 ### 4.1 Train (training container)
 
@@ -127,8 +126,24 @@ Final model on the test set (used once; 1,117 samples):
 | Majority-class baseline accuracy | 0.4727 |
 | Target (macro F1 >= 0.85) | Not met |
 
-**Reproducibility:** pinned library versions, fixed seeds (42), and the same validation and test metrics were obtained
-on the host machine and in the Docker containers. Second-machine result: TODO (fill in after running the test container there).
+**Reproducibility:** library versions are pinned and the seed is fixed (42). I got the same validation and test results
+on my own computer, in the Docker containers, and on a second computer.
+
+**Second machine:** I ran the published test image on a second Windows computer that has Docker (version 29.9.2) but no
+Python installed (`python --version` says "Python was not found"). I downloaded the project from GitHub, ran
+`docker pull dhivashini/nn-test:1.0`, and ran the container with the `data`, `models` and `outputs` folders mounted.
+The results were exactly the same:
+
+| Result | Training machine | Second machine |
+|---|---|---|
+| Validation accuracy | 0.9228 | 0.9228 |
+| Validation macro F1 | 0.7997 | 0.7997 |
+| Test accuracy | 0.8935 | 0.8935 |
+| Test macro F1 | 0.6006 | 0.6006 |
+| Wrong predictions | 119 of 1,117 | 119 of 1,117 |
+
+`python src/predict.py --demo` also worked there. It predicted AdenomeraAndre (96.0%), and the true species was
+AdenomeraAndre. Screenshots of this run are in the report and the slides.
 
 **Limitations:** several species have only 3 to 5 recordings, so their validation and test sets are tiny
 (for example 3 test samples for OsteocephalusOophagus). Per-species scores are therefore noisy.
